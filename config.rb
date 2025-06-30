@@ -54,13 +54,4 @@ def one_on_ones_for sunday
   [sun, mon, tue, wed, thr, fri, sat]
 end
 
-# Repeating Appointments by day of week, 0 is Sunday. Nested index is a value in HOUR_LABELS.
-APPOINTMENTS_BY_WDAY = [
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-  {},
-]
+

@@ -1,6 +1,7 @@
 # Change Log
 
 ## 2025-06
+- Load appointments from YAML file.
 - Load tasks from YAML file.
 
 ## 2024-11
