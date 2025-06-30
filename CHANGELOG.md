@@ -1,5 +1,8 @@
 # Change Log
 
+## 2025-06
+- Load tasks from YAML file.
+
 ## 2024-11
 - Allow periodic scheduling of 1:1s.
 

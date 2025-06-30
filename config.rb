@@ -31,6 +31,7 @@ WINTER_SEMESTER_START = 10 # October
 SPRINT_EPOCH = Date.parse('2023-01-04')
 SPRINT_LENGTH = 14
 
+# Returns nested array, names by day of week, 0 is Sunday.
 def one_on_ones_for sunday
   # Weekly
   sun = []
@@ -52,17 +53,6 @@ def one_on_ones_for sunday
 
   [sun, mon, tue, wed, thr, fri, sat]
 end
-
-# Repeating tasks by day of week, 0 is Sunday. Nested index is the row.
-TASKS_BY_WDAY = [
-  { 0 => 'Plan meals' },
-  { 0 => 'Update standup notes' },
-  { 0 => 'Update standup notes' },
-  { 0 => 'Update standup notes' },
-  { 0 => 'Update standup notes' },
-  { 0 => 'Update standup notes' },
-  { 0 => 'Plan next week' },
-]
 
 # Repeating Appointments by day of week, 0 is Sunday. Nested index is a value in HOUR_LABELS.
 APPOINTMENTS_BY_WDAY = [

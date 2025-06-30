@@ -1,7 +1,31 @@
 #!/usr/bin/env ruby
 
 require_relative './shared'
+require 'yaml'
 FILE_NAME = "time_block_pages.pdf"
+
+def load_tasks_from_yaml(tasks_file)
+  begin
+    tasks_data = YAML.load_file(tasks_file)
+  rescue Errno::ENOENT
+    puts "Warning: #{tasks_file} not found. Using empty task list."
+    return Array.new(7) { {} }
+  rescue Psych::SyntaxError => e
+    puts "Error parsing #{tasks_file}: #{e.message}"
+    puts "Using empty task list."
+    return Array.new(7) { {} }
+  end
+
+  # Convert from day name keys to array indexed by day of week (0=Sunday, 1=Monday, etc.)
+  day_names = %w[sunday monday tuesday wednesday thursday friday saturday]
+  tasks_by_wday = []
+
+  day_names.each_with_index do |day_name, wday|
+    tasks_by_wday[wday] = tasks_data[day_name] || {}
+  end
+
+  tasks_by_wday
+end
 
 # From https://stackoverflow.com/a/24753003/203673
 #
@@ -161,7 +185,7 @@ def notes_page pdf, heading_left, subheading_left = nil, heading_right = nil, su
   end
 end
 
-def daily_tasks_page pdf, date, metrics_rows = 5
+def daily_tasks_page pdf, date, tasks_by_wday, metrics_rows = 5
   begin_new_page pdf, :left
 
   header_row_count = 2
@@ -230,7 +254,7 @@ def daily_tasks_page pdf, date, metrics_rows = 5
   ((task_note_start + 1)..last_row).each_with_index do |row, index|
     # Make the box wider than needed to avoid wrapping if the task name is too long
     pdf.grid([row, 0], [row, 4]).bounding_box do
-      draw_checkbox pdf, checkbox_padding, TASKS_BY_WDAY[date.wday][index]
+      draw_checkbox pdf, checkbox_padding, tasks_by_wday[date.wday][index]
     end
   end
 end
@@ -316,7 +340,7 @@ def daily_calendar_page pdf, date
 end
 
 
-def weekend_page pdf, saturday, sunday
+def weekend_page pdf, saturday, sunday, tasks_by_wday
   begin_new_page pdf, :left
 
   header_row_count = 2
@@ -371,7 +395,7 @@ def weekend_page pdf, saturday, sunday
       checkbox_padding = 6
       ((task_start_row + 1)..task_last_row).each_with_index do |row, index|
         pdf.grid([row, 0], [row, 1]).bounding_box do
-          draw_checkbox pdf, checkbox_padding, TASKS_BY_WDAY[date.wday][index]
+          draw_checkbox pdf, checkbox_padding, tasks_by_wday[date.wday][index]
         end
       end
 
@@ -428,6 +452,9 @@ init_i18n(options[:locale])
 puts "#{options[:date_source]} Will save to #{FILE_NAME}"
 sunday = options[:date]
 
+# Load tasks from YAML file
+tasks_by_wday = load_tasks_from_yaml(File.join(File.dirname(__FILE__), 'config', 'tasks.yaml'))
+
 pdf = init_pdf
 
 options[:weeks].times do |week|
@@ -452,12 +479,12 @@ options[:weeks].times do |week|
   # Daily pages
   (1..5).each do |i|
     day = sunday.next_day(i)
-    daily_tasks_page pdf, day
+    daily_tasks_page pdf, day, tasks_by_wday
     daily_calendar_page pdf, day
   end
 
   # Weekend page
-  weekend_page pdf, sunday.next_day(6), next_sunday
+  weekend_page pdf, sunday.next_day(6), next_sunday, tasks_by_wday
 
   sunday = sunday.next_day(7)
 end
