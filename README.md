@@ -18,6 +18,10 @@ pages in Helvetica, and omits the 1-on-1 forms.
 and omits 1-on-1 forms. It looks like a good choice for Ubuntu users.
 - [dianalow's fork](https://github.com/dianalow/time-block-planner) is scaled to fit in the [TRAVELER’S notebook](https://travelerscompanyusa.com/travelers-notebook-story/), and as usual omits, the 1:1 forms.
 
+## Changes
+- Uses included Futura-PT.
+- Minor personal changes
+
 ## Installation
 
 Assuming you've got [Ruby](http://www.ruby-lang.org/en/) and [Bundler](https://bundler.io)
@@ -65,10 +69,6 @@ You can also generate a PDF of some simple lined pages:
 ```sh
 ./notes.rb
 ```
-
-## Limitations
-
-Probably only works on a Mac since it hardcodes the font path.
 
 ## Thanks
 
