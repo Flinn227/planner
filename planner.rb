@@ -99,12 +99,12 @@ def quarter(date)
   QUARTERS_BY_MONTH[date.month]
 end
 
-# pick summer or winter semester depending on the month
+# pick First or Second semester depending on the month
 def semester_year(date)
-  if date.month >= SUMMER_SEMESTER_START && date.month < WINTER_SEMESTER_START
-    I18n.l(date, format: :year)
-  else
+  if date.month >= FIRST_SEMESTER_START
     "#{I18n.l(date, format: :year)} / #{I18n.l(date.next_year, format: :year)}"
+  else
+    "#{I18n.l(date.prev_year, format: :year)} / #{I18n.l(date, format: :year)}"
   end
 end
 
@@ -276,8 +276,8 @@ def daily_calendar_page pdf, date, appointments_by_wday
   left_header = I18n.l(date, format: :medium)
   right_header = I18n.l(date, format: :weekday)
   left_subhed = date.strftime("#{I18n.t('quarter', number: quarter(date))} #{I18n.t('week')} %W #{I18n.t('day')} %j")
-  # right_subhed = business_days_left_in_year(date)
-  right_subhed = business_days_left_in_sprint(date)
+  right_subhed = business_days_left_in_year(date)
+  # right_subhed = business_days_left_in_sprint(date)
   pdf.grid([0, first_column],[1, 1]).bounding_box do
     pdf.text left_header, heading_format(align: :left)
   end

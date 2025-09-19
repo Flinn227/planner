@@ -17,6 +17,7 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw-ucrt
 
 DEPENDENCIES
   i18n
@@ -24,4 +25,4 @@ DEPENDENCIES
   pry
 
 BUNDLED WITH
-   2.2.33
+   2.7.2

@@ -1,17 +1,16 @@
 # Hours shown on the day schedule. You can leave nils if you want a blank to write in.
-HOUR_LABELS = [nil, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, nil, nil]
+HOUR_LABELS = [nil, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, nil]
 HOUR_COUNT = HOUR_LABELS.length
 COLUMN_COUNT = 4
 LIGHT_COLOR = 'AAAAAA'
 MEDIUM_COLOR = '888888'
 DARK_COLOR   = '000000'
-OSX_FONT_PATH = "/System/Library/Fonts/Supplemental/Futura.ttc"
 FONTS = {
-  'Futura' => {
-    normal: { file: OSX_FONT_PATH, font: 'Futura Medium' },
-    italic: { file: OSX_FONT_PATH, font: 'Futura Medium Italic' },
-    bold: { file: OSX_FONT_PATH, font: 'Futura Condensed ExtraBold' },
-    condensed: { file: OSX_FONT_PATH, font: 'Futura Condensed Medium' },
+  'Jost' => {
+    normal: { file: './fonts/FuturaPTMedium.ttf' },
+    italic: { file: './fonts/FuturaPTMediumOblique.ttf' },
+    bold: { file: './fonts/FuturaPTCondExtraBold.ttf' },
+    condensed: { file: './fonts/FuturaPTCondMedium.ttf' },
   }
 }
 PAGE_SIZE = 'LETTER' # Could also do 'A4'
@@ -20,16 +19,16 @@ LEFT_PAGE_MARGINS = [36, 72, 36, 36]
 RIGHT_PAGE_MARGINS = [36, 36, 36, 72]
 
 # Adjust the quarters to a fiscal year, 1 for Jan, 2 for Feb, etc.
-Q1_START_MONTH = 2
+Q1_START_MONTH = 1
 QUARTERS_BY_MONTH = (1..12).map { |month| (month / 3.0).ceil }.rotate(1 - Q1_START_MONTH).unshift(nil)
 
 # Adjust the start of semesters
-SUMMER_SEMESTER_START = 4 # April
-WINTER_SEMESTER_START = 10 # October
+FIRST_SEMESTER_START = 8 # August
+SECOND_SEMESTER_START = 1 # January
 
 # Use these if you have sprints of a weekly interval
-SPRINT_EPOCH = Date.parse('2023-01-04')
-SPRINT_LENGTH = 14
+# SPRINT_EPOCH = Date.parse('2023-01-04')
+# SPRINT_LENGTH = 14
 
 # Returns nested array, names by day of week, 0 is Sunday.
 def one_on_ones_for sunday
